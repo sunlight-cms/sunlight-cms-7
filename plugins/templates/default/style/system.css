@@ -1,0 +1,176 @@
+/* tagy */
+img {border: none;}
+td {padding: 1px;}
+form {padding: 0; margin: 0;}
+fieldset {margin-bottom: 10px; padding: 8px;}
+legend {font-weight: bold;}
+input, textarea {font-size: 13px; font-family: inherit;}
+input[type=text], input[type=password], input[type=submit], input[type=button], input[type=reset], button, select {padding: 3px;}
+
+/* menu */
+.menu {}
+.menu a {}
+.menu a.act {}
+
+/* rozbalovaci menu */
+.menu-dropdown-list li {padding-left: 14px !important;}
+
+/* boxy */
+.box-title {}
+.box-item {}
+.searchform {padding-bottom: 10px;}
+/*.searchform input.q {}*/
+
+/* vypis */
+.list-title {margin: 15px 0 3px 0 !important; padding: 0 !important;}
+.list-title a {font-size: 15px;}
+.list-perex {padding: 0 !important; margin: 0 0 3px 0 !important;}
+.list-perex-image {}
+.list-info {padding: 4px 0 15px 0 !important; clear: both;}
+.list-info span {font-weight: bold;}
+.list-info a {}
+
+/* clanek */
+.article-navigation {padding-bottom: 10px; margin-bottom: 15px;}
+.article-perex {}
+.article-perex-image {}
+.article-info {padding: 20px 0 10px 0;}
+.article-info td {padding: 10px; line-height: 24px;}
+.ratetable {padding: 5px;}
+.ratetable td {padding: 0 2px; text-align: center; vertical-align: top;}
+.ratetable tr.r1 * {font-weight: bold;}
+
+/* anketa a shoutbox */
+.poll, .sbox {}
+.poll-content, .sbox-content {padding: 5px;}
+.poll-question, .sbox-title {text-align: center; padding-bottom: 5px;}
+
+  /* individualni pro anketu */
+  .poll-answer {padding: 6px 0 5px 0;}
+  .poll-answer input {padding: 0; margin: 0;}
+  .poll-answer .votebutton {margin: 3px 4px 2px 0 !important;}
+  .poll-answer div {background-image: url("../images/system/votebar.gif"); background-repeat: repeat-x; height: 11px; margin: 6px 2px 4px 0;}
+  .poll-question div {font-size: 9px;}
+
+  /* individualni pro shoutbox */
+  .sbox-item {padding: 10px 5px 10px 0;}
+  .sbox-input {width: 90%;}
+  .sbox-posts {height: 350px; overflow: auto;}
+  .sbox form, .sbox table {margin: 0; padding: 0;}
+  .sbox table {border-collapse: collapse; width: 90%;}
+  .sbox table td.rpad {width: 44px;}
+
+/* prispevky / komentare */
+.posts-comments, .posts-book {}
+.posts-comments {margin-top: 32px; padding-top: 5px;}
+.posts-book {padding-top: 12px;}
+.posts h2 {margin-bottom: 10px;}
+.posts-form {padding-bottom: 10px;}
+.posts-form-buttons {padding-left: 16px;}
+.posts-form-buttons img {vertical-align: middle;}
+.posts-form-buttons a.bbcode-button {display: inline-block; width: 16px; height: 16px; padding: 3px 4px; background: url(../images/bbcode/button-body.png) left top no-repeat;}
+.posts-form-buttons a.bbcode-button img {vertical-align: top;}
+.post {clear: both;}
+.post-hl {}
+.post-head {margin-top: 20px;}
+.post-author {}
+.post-author-guest {}
+.post-subject {}
+.post-info {}
+.post-actions a {font-size: 10px; text-decoration: none; padding-left: 4px;}
+.post-postlink {float: right; position: relative; right: 5px; font-size: 9px; text-decoration: none;}
+.post-body {padding: 4px 0 8px 0; margin: 0;}
+.post-body-withavatar {padding-left: 60px; min-height: 67px;}
+.post-body-withavatar img.avatar2 {float: left; max-width: 50px; margin-left: -60px;}
+/*.post-body-withavatar .post-body-text {} */
+.post-body-text {line-height: 150%;}
+.post-smiley {vertical-align: middle;}
+.post-answer {margin-left: 20px; padding-left: 7px;}
+.post-answer .post-info {font-size: 10px;}
+.post-answer .post-head {margin-top: 15px;}
+.post-answer .post-body {border-bottom: 0; padding-bottom: 4px;}
+.post-answer .post-body-withavatar .post-body-text {border-left: none; padding-left: 3px;}
+
+/* temata na foru */
+.topic-table {border-collapse: collapse;}
+.topic-table td {padding: 5px;}
+.topic-hl, .topic-table thead td {}
+.topic-icon-cell {width: 41px; padding-right: 0 !important; border-right: none !important;}
+.topic-main-cell {width: 50%; border-left: none !important; white-space: nowrap;}
+.topic-pages {margin-left: 0.5em;}
+.topic-pages a {display: inline-block; padding: 0 4px; margin: 0 2px; text-decoration: none;}
+.topic-avatar {max-width: 64px; float: left; margin: 4px 12px 8px 0;}
+
+/* bbcode */
+.bbcode-img {max-width: 400px; max-height: 800px;}
+
+/* galerie */
+.gallery {min-width: 90%;}
+.gallery td {overflow: hidden; text-align: center; vertical-align: middle;}
+.gallery img {margin: 3px;}
+
+/* vzkazy */
+.messages-menu a {padding: 0 6px; text-decoration: none;}
+.messages-menu a.active {font-weight: bold;}
+.messages-table {}
+.messages-table td {padding: 5px 15px;}
+.messages-table a {text-decoration: none;}
+.messages-table a.notreaded {font-weight: bold;}
+
+/* tabulky (vypis uzivatelu, seznam temat fora) */
+.widetable, .widetable2, .topic-table {}
+.widetable td {width: 50%; padding: 6px 15px;}
+.widetable2 td {padding: 6px 10px;}
+
+/* profil */
+.profiletable td {padding: 3px 10px;}
+.profiletable .avatartd {padding: 5px;}
+.profiletable .note {padding: 0 5px 5px 0; width: 375px; overflow: auto;}
+.profiletable .posts-form-buttons {padding-left: 0;}
+.avatar {width: 96px;}
+
+/* formulare */
+.areasmall {width: 370px; height: 100px;}
+.areamedium {width: 495px; height: 150px;}
+.inputsmall {width: 177px;}
+.inputmedium {width: 370px;}
+.inputc {width: 160px; height: 46px; font-family: monospace; font-size: 40px; text-transform: uppercase;}
+
+/* strankovani*/
+.paging {padding: 6px 0 3px 1px;}
+.paging span a {padding: 0 2px; text-decoration: none;}
+.paging a.act {text-decoration: underline;}
+
+/* systemove zpravy */
+.message1, .message2, .message3 {margin: 5px 0 20px 0; padding: 11px 5px 13px 48px; font-weight: bold; background-position: 5px 5px; background-repeat: no-repeat; line-height: 120%;}
+.message1 ul, .message2 ul, .message3 ul {margin: 0; padding: 5px 0 0 15px;}
+.message1 {background-image: url("../images/icons/info.png");}
+.message2 {background-image: url("../images/icons/warning.png");}
+.message3 {background-image: url("../images/icons/error.png");}
+
+/* horizontalni cara */
+.hr {display: block; height: 10px; background-image: url("../images/system/hr.gif"); background-position: left center; background-repeat: repeat-x;}
+.hr hr {display: none;}
+
+/* ruzne */
+.pre {font-family: monospace; white-space: nowrap; display: block;}
+.bborder {}
+.anchor {height: 0px; overflow: hidden;}
+.backlink {display: block; font-weight: bold; padding-bottom: 15px;}
+.hint {font-size: 10px; padding: 0 4px;}
+.cimage {width: 160px; height: 46px; vertical-align: top; margin-left: 5px;}
+.exp {cursor: help;}
+.icon {vertical-align: middle; margin-top: -1px;}
+.right {float: right; margin: 1px 1px 5px 10px;}
+.left {float: left; margin: 1px 10px 5px 1px;}
+tr.valign-top td {vertical-align: top;}
+.wlimiter {width: 646px; overflow: auto;}
+.minip {padding: 0; margin: 0 0 4px 0;}
+.rpad {padding-right: 10px;}
+.lpad {padding-left: 10px;}
+.center {text-align: center;}
+.inline {display: inline;}
+.important {color: red;}
+.hidden {display: none;}
+.cleaner {clear: both;}
+.pad {padding: 10px;}

@@ -1,0 +1,153 @@
+/* Toolbar */
+#devkit-toolbar * {
+    margin: 0;
+    padding: 0;
+    width: auto;
+    height: auto;
+    max-width: none;
+    max-height: none;
+    font-size: 13px;
+    font-family: monospace;
+    font-weight: normal;
+    text-decoration: none;
+    color: #000;
+    border: none;
+    background: none;
+    line-height: 100%;
+    box-shadow: none;
+}
+
+#devkit-toolbar {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    z-index: 1000;
+    padding: 0 10px;
+    width: 100%;
+    border-top: 1px solid #aaa;
+    outline: 1px solid #fff;
+    background-color: #ccc;
+}
+
+/* Sections */
+#devkit-toolbar div.devkit-section {
+    float: left;
+    padding: 10px 15px 10px 32px;
+    border-right: 1px solid #aaa;
+    background-repeat: no-repeat;
+    background-position: 8px center;
+}
+
+#devkit-toolbar div.devkit-info {
+    background-image: url("images/info.png");
+}
+
+#devkit-toolbar div.devkit-time {
+    background-image: url("images/clock.png");
+}
+
+#devkit-toolbar div.devkit-memory {
+    background-image: url("images/memory.png");
+}
+
+#devkit-toolbar div.devkit-database {
+    background-image: url("images/database.png");
+}
+
+#devkit-toolbar div.devkit-request {
+    background-image: url("images/blocks.png");
+}
+
+#devkit-toolbar div.devkit-login {
+    background-image: url("images/keys.png");
+}
+
+#devkit-toolbar > a:hover div.devkit-section {
+    background-color: #aaa;
+}
+
+/* Toggleable sections */
+#devkit-toolbar div.devkit-toggleable {
+    cursor: pointer;
+}
+#devkit-toolbar div.devkit-toggleable:hover {
+    background-color: #aaa;
+}
+
+/* Toggleable content */
+#devkit-toolbar > div.devkit-content {
+    display: none;
+    overflow: auto;
+    position: fixed;
+    left: 0;
+    bottom: 35px;
+    width: 80%;
+    min-width: 700px;
+    height: 100%;
+    border-width: 0 1px;
+    border-style: solid;
+    border-color: #aaa;
+    background-color: #f5f5f5;
+}
+
+#devkit-toolbar > div.devkit-content > div {
+    padding: 13px;
+    white-space: nowrap;
+}
+
+/* Sql log */
+#devkit-toolbar li.devkit-slow-query > input {
+    color: #a00;
+}
+
+/* Request */
+#devkit-toolbar div.devkit-request-dump {
+    padding: 13px;
+    margin: 8px 0;
+    border: 1px solid #aaa;
+    background-color: #fff;
+    white-space: pre;
+}
+
+/* Hide/show */
+#devkit-toolbar div.devkit-hideshow {
+    cursor: pointer;
+}
+
+/* Close */
+#devkit-toolbar div.devkit-close {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    padding: 0 5px;
+    font-size: 30px;
+    color: #777;
+    cursor: pointer;
+}
+
+/* Generic */
+#devkit-toolbar .devkit-blood {
+    color: #a00;
+}
+
+#devkit-toolbar div.devkit-heading {
+    margin-bottom: 10px;
+    font-size: 19px;
+    font-weight: bold;
+    font-style: italic;
+}
+
+#devkit-toolbar ol {
+    margin: 10px 0 10px 20px;
+}
+
+#devkit-toolbar li {
+    line-height: 150%;
+    padding: 2px 0;
+}
+
+#devkit-toolbar input {
+    padding: 5px;
+    border: none;
+    background: none;
+}

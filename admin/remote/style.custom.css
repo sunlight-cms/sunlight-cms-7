@@ -1,0 +1,13 @@
+/* tagy */
+body {background: transparent; margin: 0; padding: 0;}
+
+/* elementy */
+#custom-wrapper {padding: 1px;}
+
+/* vypis */
+.list-title {margin: 15px 0 3px 0 !important; padding: 0 !important;}
+.list-title a {font-size: 15px;}
+.list-perex {padding: 0 !important; margin: 0 0 3px 0 !important;}
+.list-info {color: #808080; padding: 4px 0 15px 0 !important; clear: both;}
+.list-info span {font-weight: bold;}
+.list-info a {text-decoration: none; color: #808080;}
