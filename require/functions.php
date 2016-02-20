@@ -1586,44 +1586,6 @@ function _sqlWhereColumn($column, $values)
 }
 
 /**
- * Zobrazi zpravu o selhani systemu a ukonci provadeni skriptu
- * @param string $msg zprava
- */
-function _systemFailure($msg)
-{
-    if (!headers_sent()) {
-        header('HTTP/1.1 503 Service Temporarily Unavailable');
-        header('Retry-After: 600');
-        header('Content-Type: text/html; charset=UTF-8', true);
-    }
-    echo '<!DOCTYPE html><html><head><title>Selhání systému</title></head><body>';
-    _systemMessage("Selhání systému", "<p>" . $msg . "</p>");
-    echo '</body></html>';
-    exit;
-}
-
-/**
- * Zobrazeni systemove zpravy (neukonci skript)
- * @param string $title titulek
- * @param string $message zprava
- */
-function _systemMessage($title, $message)
-{
-    echo "
-
-<div style='text-align: center !important; margin: 10px !important;'>
-<div style='text-align: left !important; margin: 0 auto !important; width: 600px !important; font-family: monospace !important; font-size: 13px !important; color: #000000 !important; background-color: #ffffff !important; border: 1px solid #ffffff !important; position: relative; z-index: 999;'>
-<div style='border: 1px solid #000000 !important; padding: 10px; overflow: auto !important;'>
-<h1 style='color: #000000 !important; font-size: 20px !important; border-bottom: 2px solid #ff6600 !important;'>" . $title . "</h1>
-" . $message . "
-</div>
-</div>
-</div>
-
-";
-}
-
-/**
  * Sestavit kod systemoveho formulare
  *
  * $id          Popis                                       $vars

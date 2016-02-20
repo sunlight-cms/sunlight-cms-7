@@ -203,7 +203,7 @@ function _templateMenu($ord_start = null, $ord_end = null, $parent_class = 'menu
 
         // nacteni dat
         $tree = array();
-        $query = DB::query("SELECT page.id,page.type,page.title,page.title_seo,page.level,page.var1,page.var2,page.intersection FROM `" . _mysql_prefix . "-root` AS page LEFT JOIN `" . _mysql_prefix . "-root` AS inter ON(page.intersection=inter.id) WHERE page.visible=1 AND page.type!=4 AND (inter.id IS NULL" . $ord_limit . " OR inter.var2=1" . $inter_ord_limit . ") ORDER BY page.intersection,page.ord");
+        $query = DB::query("SELECT page.id,page.type,page.title,page.title_seo,page.level,page.var1,page.var2,page.intersection FROM `" . _mysql_prefix . "-root` AS page LEFT JOIN `" . _mysql_prefix . "-root` AS inter ON(page.intersection=inter.id) WHERE page.visible=1 AND page.type!=4 AND (inter.id IS NULL" . $ord_limit . " OR inter.visible=1 AND inter.var2=1" . $inter_ord_limit . ") ORDER BY page.intersection,page.ord");
         while ($item = DB::row($query)) {
             if ($item['intersection'] == -1) $tree[$item['id']] = $item;
             else {
@@ -236,7 +236,6 @@ function _templateMenu($ord_start = null, $ord_end = null, $parent_class = 'menu
                 $link = "<a href='" . _linkRoot($item['id'], $item['title_seo']) . "'" . $target . ">" . $item['title'] . "</a>";
 
             } else {
-
                 // polozky rozcestniku
                 $icounter = 0;
                 $ilast = sizeof($item['children']) - 1;
@@ -267,8 +266,7 @@ function _templateMenu($ord_start = null, $ord_end = null, $parent_class = 'menu
                 if ($childactive || $item['id'] == $pid) $classes[] = 'act';
 
                 $link = "<a href='" . _linkRoot($item['id'], $item['title_seo']) . "' class='menu-dropdown-link'>" . $item['title'] . "</a>";
-                if ($link_sublistitems !== '') $link .= "\n<ul class='menu-dropdown-list'>
-" . $link_sublistitems . "</ul>\n";
+                if ($link_sublistitems !== '') $link .= "\n<ul class='menu-dropdown-list'>\n" . $link_sublistitems . "</ul>\n";
 
             }
 

@@ -79,7 +79,7 @@ set_error_handler('_error_handler', error_reporting());
 
 $self = new KZip(__FILE__, __COMPILER_HALT_OFFSET__);
 $self_size = filesize(__FILE__) - __COMPILER_HALT_OFFSET__;
-if (isset($self->error)) die('# ' . $self->error);
+if (isset($self->error)) die($self->error);
 
 // konfigurace dle typu
 $is_clean = false;
