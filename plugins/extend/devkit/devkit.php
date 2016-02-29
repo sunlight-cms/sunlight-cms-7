@@ -212,7 +212,7 @@ class DevkitDebuggerOutputHandler
                 continue;
             }
             $explainQuery = DB::query('EXPLAIN ' . $sql, true, false);
-            if (is_resource($explainQuery)) {
+            if ($explainQuery) {
                 while ($explainRow = DB::row($explainQuery)) {
                     $explainExtra = preg_split('/\\s*;\\s*/', $explainRow['Extra']);
                     for ($i = 0; isset($explainExtra[$i]); ++$i) {

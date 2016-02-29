@@ -55,7 +55,7 @@ if ($process) {
 
         $fields = array();
         $aff_rows = DB::affectedRows();
-        if (is_resource($query)) $num_rows = intval(DB::size($query));
+        if ($query) $num_rows = intval(DB::size($query));
         else $num_rows = 0;
         $heading = false;
 
