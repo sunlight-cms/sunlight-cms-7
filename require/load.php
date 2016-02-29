@@ -464,14 +464,14 @@ abstract class DB
      */
     public static function query($sql, $expect_error = false, $log = true)
     {
-        if (null !== static::$logger && $log) {
-            call_user_func(static::$logger, $sql);
+        if (null !== self::$logger && $log) {
+            call_user_func(self::$logger, $sql);
         }
 
-        $q = static::$con->query($sql);
+        $q = self::$con->query($sql);
         if (_dev && $q === false && !$expect_error) {
             // varovani v dev modu
-            trigger_error('SQL error: ' . static::$con->error . ' --- SQL code: ' . $sql, E_USER_WARNING);
+            trigger_error('SQL error: ' . self::$con->error . ' --- SQL code: ' . $sql, E_USER_WARNING);
         }
 
         return $q;
@@ -485,12 +485,12 @@ abstract class DB
      */
     public static function query_row($sql, $expect_error = false)
     {
-        $q = static::query($sql, $expect_error);
+        $q = self::query($sql, $expect_error);
         if (false === $q) {
             return false;
         }
-        $row = static::row($q);
-        static::free($q);
+        $row = self::row($q);
+        self::free($q);
 
         return $row;
     }
@@ -503,10 +503,10 @@ abstract class DB
      */
     public static function count($table, $where = '1')
     {
-        $q = static::query('SELECT COUNT(*) FROM `' . $table . '` WHERE ' . $where);
+        $q = self::query('SELECT COUNT(*) FROM `' . $table . '` WHERE ' . $where);
         if ($q) {
-            $count = intval(static::result($q, 0));
-            static::free($q);
+            $count = intval(self::result($q, 0));
+            self::free($q);
 
             return $count;
         }
@@ -520,7 +520,7 @@ abstract class DB
      */
     public static function error()
     {
-        return static::$con->error;
+        return self::$con->error;
     }
 
     /**
@@ -599,7 +599,7 @@ abstract class DB
      */
     public static function insertID()
     {
-        return static::$con->insert_id;
+        return self::$con->insert_id;
     }
 
     /**
@@ -608,7 +608,7 @@ abstract class DB
      */
     public static function affectedRows()
     {
-        return static::$con->affected_rows;
+        return self::$con->affected_rows;
     }
 
     /**
@@ -625,19 +625,19 @@ abstract class DB
 
         if ($handleArray && is_array($value)) {
             foreach ($value as &$item) {
-                $item = static::esc($item);
+                $item = self::esc($item);
             }
 
             return $value;
         }
         if (is_string($value)) {
-            return static::$con->real_escape_string($value);
+            return self::$con->real_escape_string($value);
         }
         if (is_numeric($value)) {
             return (0 + $value);
         }
 
-        return static::$con->real_escape_string((string) $value);
+        return self::$con->real_escape_string((string) $value);
     }
 
     /**
@@ -648,7 +648,7 @@ abstract class DB
      */
     public static function val($value, $handleArray = false)
     {
-        $value = static::esc($value, $handleArray);
+        $value = self::esc($value, $handleArray);
         if ($handleArray && is_array($value)) {
             $out = '';
             $itemCounter = 0;
@@ -656,7 +656,7 @@ abstract class DB
                 if (0 !== $itemCounter) {
                     $out .= ',';
                 }
-                $out .= static::val($item);
+                $out .= self::val($item);
                 ++$itemCounter;
             }
 
@@ -679,7 +679,7 @@ abstract class DB
         $sql = '';
         for ($i = 0; isset($arr[$i]); ++$i) {
             if (0 !== $i) $sql .= ',';
-            $sql .= static::val($arr[$i]);
+            $sql .= self::val($arr[$i]);
         }
 
         return $sql;
@@ -704,11 +704,11 @@ abstract class DB
                 $val_list .= ',';
             }
             $col_list .= "`{$col}`";
-            $val_list .= static::val($val);
+            $val_list .= self::val($val);
             ++$counter;
         }
-        $q = static::query("INSERT INTO `{$table}` ({$col_list}) VALUES({$val_list})");
-        if (false !== $q && $get_insert_id) return static::insertID();
+        $q = self::query("INSERT INTO `{$table}` ({$col_list}) VALUES({$val_list})");
+        if (false !== $q && $get_insert_id) return self::insertID();
         return $q;
     }
 
@@ -727,11 +727,11 @@ abstract class DB
         $set_list = '';
         foreach ($data as $col => $val) {
             if (0 !== $counter) $set_list .= ',';
-            $set_list .= "`{$col}`=" . static::val($val);
+            $set_list .= "`{$col}`=" . self::val($val);
             ++$counter;
         }
 
-        return static::query("UPDATE `{$table}` SET {$set_list} WHERE {$cond}" . ((null === $limit) ? '' : " LIMIT {$limit}"));
+        return self::query("UPDATE `{$table}` SET {$set_list} WHERE {$cond}" . ((null === $limit) ? '' : " LIMIT {$limit}"));
     }
 
     /**
