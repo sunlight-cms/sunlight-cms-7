@@ -143,19 +143,29 @@ echo _systemversion;
   <hr />
 
   <h2>Licenční ujednání</h2>
-  <p>Použití a redistribuce redakčního systému SunLight CMS (dále jen <q>systém</q>), v původním i upraveném tvaru, jsou povoleny za následujících podmínek:</p>
+  <p>Copyright (c) 2006-2016 Pavel Batečko (ShiraNai7)</p>
 
-  <ul>
-    <li>administrace systému musí obsahovat viditelný nezměněný copyright s původními odkazy</li>
-    <li>je povoleno upravovat zdrojové kódy systému, ne však zahrnovat (kopírovat) jejich části do jiných systémů</li>
-    <li>není povoleno vydávat systém za vlastní dílo</li>
-  </ul>
+  <p>Permission is hereby granted, free of charge, to any person
+  obtaining a copy of this software and associated documentation
+  files (the "Software"), to deal in the Software without
+  restriction, including without limitation the rights to use,
+  copy, modify, merge, publish, distribute, sublicense, and/or sell
+  copies of the Software, and to permit persons to whom the
+  Software is furnished to do so, subject to the following
+  conditions:</p>
 
-  <h3>Zřeknutí se odpovědnosti</h3>
-  <p>Tento systém je poskytován autorem <q>jak stojí a leží</q> a jakékoliv výslovné nebo předpokládané záruky včetně, ale nejen, předpokládaných obchodních záruk a záruky vhodnosti pro jakýkoliv účel jsou popřeny. Autor nebude v žádném případě odpovědný za jakékoliv přímé, nepřímé, náhodné, zvláštní, příkladné nebo vyplývající škody (včetně, ale nejen, škod vzniklých narušením dodávek zboží nebo služeb; ztrátou použitelnosti, dat nebo zisků; nebo přerušením obchodní činnosti) jakkoliv způsobené na základě jakékoliv teorie o zodpovědnosti, ať už plynoucí z jiného smluvního vztahu, určité zodpovědnosti nebo přečinu (včetně nedbalosti) na jakémkoliv způsobu použití tohoto systému, i v případě, že byl autor upozorněn na možnost takových škod.</p>
+  <p>The above copyright notice and this permission notice shall be
+  included in all copies or substantial portions of the Software.</p>
 
-  <h3>Platnost a změna znění licence</h3>
-  <p>Tato licence je platná pro všechny verze systému. Autor si vyhrazuje právo na změnu znění licenčního ujednání. Změny vstupují v platnost dnem uveřejnění na oficiálních stránkách.</p>
+  <p>THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+  EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+  OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+  NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+  HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+  WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+  OTHER DEALINGS IN THE SOFTWARE.</p>
+
   <br />
 
   <label><input type="checkbox" name="license" value="1" /> souhlasím s licenčním ujednáním</label>
