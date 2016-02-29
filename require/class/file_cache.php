@@ -121,10 +121,10 @@ class FileCache
         }
 
         // store meta data
-        file_put_contents($path . DIRECTORY_SEPARATOR . $filename . '.meta', $this->serialize($metaData));
+        file_put_contents($path . DIRECTORY_SEPARATOR . $filename . '.meta', $this->serialize($metaData), LOCK_EX);
 
         // store data
-        file_put_contents($path . DIRECTORY_SEPARATOR . $filename . '.data', $this->serialize($data));
+        file_put_contents($path . DIRECTORY_SEPARATOR . $filename . '.data', $this->serialize($data), LOCK_EX);
 
         return true;
     }

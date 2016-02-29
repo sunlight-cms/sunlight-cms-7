@@ -41,7 +41,7 @@ Komentare
 
 define('_indexroot', './');
 define('_tmp_dir', './');
-define('_dev', false);
+define('_dev', true);
 
 $cfg_locale = $__locale;
 $cfg_timezone = $__timezone;
@@ -247,7 +247,7 @@ function _tmp_installer_install()
                 }
 
                 // pripojeni
-                $con = @mysqli_connect($_POST['db_server'], $_POST['db_user'], $_POST['db_pwd']);
+                $con = @mysqli_connect($_POST['db_server'], $_POST['db_user'], $_POST['db_pwd'], $_POST['db_name']);
                 if (!is_object($con)) {
                     $err = $_lang['step.2.err.con'] . '<br><code>' . _htmlStr(mysqli_connect_error()) . '</code>';
                     break;
@@ -262,6 +262,7 @@ function _tmp_installer_install()
                 $prefix = DB::esc($prefix);
                 $q = DB::query('SHOW TABLES LIKE \'' . $prefix . '-%\'');
                 $tables = array();
+
                 while($r = DB::rown($q)) $tables[] = $r[0];
                 if (!empty($tables) && !isset($_POST['db_overwrite'])) {
                     $err = $_lang['step.2.err.tables'] . ':<br><br>&bull; ' . implode("<br>\n&bull; ", $tables);
