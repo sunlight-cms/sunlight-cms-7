@@ -142,7 +142,7 @@ abstract class SL
         if ($envChanges) {
         
             // kontrola verze PHP a pritomnosti rozsireni
-            if (PHP_VERSION_ID < 50100) {
+            if (version_compare(PHP_VERSION, '5.1.0', '<')) {
                 _systemFailure('Je vyžadováno PHP 5.1.0 nebo novější.');
             }
             if (!extension_loaded('mbstring')) {
