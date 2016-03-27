@@ -246,8 +246,17 @@ function _tmp_installer_install()
                     break;
                 }
 
+                // DB port
+                $server = $_POST['db_server'];
+                if (false !== ($serverColonPos = strpos($server, ':'))) {
+                    $port = (int) substr($server, $serverColonPos + 1);
+                    $server = substr($server, 0, $serverColonPos);
+                } else {
+                    $port = ini_get('mysqli.default_port');
+                }
+
                 // pripojeni
-                $con = @mysqli_connect($_POST['db_server'], $_POST['db_user'], $_POST['db_pwd'], $_POST['db_name']);
+                $con = @mysqli_connect($server, $_POST['db_user'], $_POST['db_pwd'], $_POST['db_name'], $port);
                 if (!is_object($con)) {
                     $err = $_lang['step.2.err.con'] . '<br><code>' . _htmlStr(mysqli_connect_error()) . '</code>';
                     break;

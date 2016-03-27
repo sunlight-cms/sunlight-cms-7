@@ -49,7 +49,7 @@ if (isset($_GET['id'])) {
                         break;
 
                     case 6:
-                        $backlink = "index.php?m=messages&amp;a=list&amp;read=" . $query['home'] . '&amp;page=' . _resultPagingGetItemPage(_messagesperpage, 'posts', 'id<' . $query['id'] . ' AND type=6 AND home=' . $query['home']) . '#posts-' . $query['id'];
+                        $backlink = "index.php?m=messages&amp;a=list&amp;read=" . $query['home'] . '&amp;page=' . _resultPagingGetItemPage(_messagesperpage, 'posts', 'id<' . $query['id'] . ' AND type=6 AND home=' . $query['home']) . '#post-' . $query['id'];
                         break;
 
                     case 7:

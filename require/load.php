@@ -92,10 +92,24 @@ abstract class SL
         require self::$configFile;
 
         // doplneni konfigurace (kvuli kompatibilite)
-        if (!isset($locale)) $locale = array('czech', 'utf8', 'cz_CZ');
-        if (!isset($timezone)) $timezone = 'Europe/Prague';
-        if (!isset($geo)) $geo = array(50.5, 14.26, 90.583333);
-        if (!isset($port)) $port = ini_get('mysqli.default_port');
+        if (!isset($locale)) {
+            $locale = array('czech', 'utf8', 'cz_CZ');
+        }
+        if (!isset($timezone)) {
+            $timezone = 'Europe/Prague';
+        }
+        if (!isset($geo)) {
+            $geo = array(50.5, 14.26, 90.583333);
+        }
+        if (!isset($port)) {
+            // pokud neni uveden $port, muze byt definovan jako soucast $server (server:port)
+            if (false !== ($serverColonPos = strpos($server, ':'))) {
+                $port = (int) substr($server, $serverColonPos + 1);
+                $server = substr($server, 0, $serverColonPos);
+            } else {
+                $port = ini_get('mysqli.default_port');
+            }
+        }
 
         // systemove konstanty
         define('_indexroot', $root);
@@ -225,7 +239,7 @@ abstract class SL
         /* ----  pripojeni k mysql  ---- */
 
         if ($databaseEnabled) {
-            $con = @mysqli_connect($server, $user, $password, $database);
+            $con = @mysqli_connect($server, $user, $password, $database, $port);
             if (!is_object($con)) _systemFailure('Připojení k databázi se nezdařilo. Důvodem je pravděpodobně výpadek serveru nebo chybné přístupové údaje.</p><hr /><pre>' . _htmlStr(mysqli_connect_error()) . '</pre><hr /><p>Zkontrolujte přístupové údaje v souboru <em>config.php</em>.');
             $con->set_charset('utf8');
             DB::$con = $con;
