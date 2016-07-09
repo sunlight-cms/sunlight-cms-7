@@ -1714,7 +1714,7 @@ function _phpIniLimit($opt)
     $ini = ini_get($opt);
 
     // check value
-    if ($ini === '') {
+    if (!$ini || -1 == $ini) {
         // no limit?
         return null;
     }

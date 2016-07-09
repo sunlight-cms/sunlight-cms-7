@@ -2179,15 +2179,15 @@ function _pictureLoad($filepath, $limit = array(), $filename = null)
         }
 
         // kontrola dostupne pameti
-        $memlimit = _phpIniLimit('memory_limit');
-        if (null === $memlimit) $memlimit = 8388608; // 8MB
-        $availMem = floor($limit['memory'] * ($memlimit - memory_get_usage()));
-        $requiredMem = ceil(($imageInfo[0] * $imageInfo[1] * $imageInfo['bits'] * $channels / 8 + 65536) * 1.65);
+        if ($memlimit = _phpIniLimit('memory_limit')) {
+            $availMem = floor($limit['memory'] * ($memlimit - memory_get_usage()));
+            $requiredMem = ceil(($imageInfo[0] * $imageInfo[1] * $imageInfo['bits'] * $channels / 8 + 65536) * 1.65);
 
-        if ($requiredMem > $availMem) {
-            // nedostatek pameti
-            $code = 5;
-            break;
+            if ($requiredMem > $availMem) {
+                // nedostatek pameti
+                $code = 5;
+                break;
+            }
         }
 
         // nacteni rozmeru
