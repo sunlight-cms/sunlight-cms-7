@@ -110,7 +110,7 @@ legend {color: #000000;}
 .widetable {border: 1px solid #dcdcdc;}
 
 /* profil */
-.avatar {border: 1px solid #000000; font-size: 0;}
+.avatar {border: 1px solid #000000; font-size: 0; line-height: 1;}
 
 /* systemove zpravy */
 .message1, .message2, .message3 {background-color: #ffffff; border: 1px solid #e1e1e1;}
