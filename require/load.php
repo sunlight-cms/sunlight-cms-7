@@ -243,6 +243,7 @@ abstract class SL
             if (!is_object($con)) _systemFailure('Připojení k databázi se nezdařilo. Důvodem je pravděpodobně výpadek serveru nebo chybné přístupové údaje.</p><hr /><pre>' . _htmlStr(mysqli_connect_error()) . '</pre><hr /><p>Zkontrolujte přístupové údaje v souboru <em>config.php</em>.');
             $con->set_charset('utf8');
             DB::$con = $con;
+            DB::query('SET sql_mode=\'\'');
         }
 
         /* ----  konstanty nastaveni, jazykovy soubor, motiv, session  ---- */
