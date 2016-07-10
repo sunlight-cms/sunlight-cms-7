@@ -265,6 +265,7 @@ function _tmp_installer_install()
                 // kodovani a konstanty
                 DB::$con = $con;
                 DB::$con->set_charset('utf8');
+                DB::query('SET sql_mode=\'\'');
                 define('_mysql_prefix', $prefix);
 
                 // existence tabulek
