@@ -190,7 +190,7 @@ function _postsOutput($type, $home, $vars, $force_locked = false, $url = null)
 
     if ($title != null) $output .= "<h2>" . $title . _linkRss($home, $posttype) . "</h2>\n";
 
-    $output .= "<div class='posts-form'>\n";
+    $output .= "<div class='posts-form' id='post-form'>\n";
 
     /* ---  priprava strankovani  --- */
     $paging = _resultPaging($url_html, $postsperpage, "posts", $countcond, "#posts", null, $autolast);
@@ -255,7 +255,7 @@ function _postsOutput($type, $home, $vars, $force_locked = false, $url = null)
 
     // zaklad query
     if ($type == 5) $sql = "SELECT id,author,guest,subject,time,ip,locked,bumptime,sticky,(SELECT COUNT(id) FROM `" . _mysql_prefix . "-posts` WHERE type=5 AND xhome=post.id) AS answer_count";
-    else $sql = "SELECT id,xhome,subject,text,author,guest,time,ip";
+    else $sql = "SELECT id,xhome,subject,text,author,guest,time,ip" . _extend('buffer', 'posts.columns');
     $sql .= " FROM `" . _mysql_prefix . "-posts` AS post";
 
     // podminky a razeni
@@ -280,7 +280,6 @@ function _postsOutput($type, $home, $vars, $force_locked = false, $url = null)
     if ($type == 5) {
         // posledni prispevek (pro vypis temat)
         if (!empty($item_ids_with_answers)) {
-            // fuj ... ale lepsi nez 20 poddotazu, ne?
             $topicextra = DB::query("SELECT * FROM (SELECT id,xhome,author,guest FROM `" . _mysql_prefix . "-posts` AS reply WHERE type=5 AND home=" . $home . " AND xhome IN(" . implode(',', $item_ids_with_answers) . ") ORDER BY reply.id DESC) AS replies GROUP BY xhome");
             while ($item = DB::row($topicextra)) {
                 if (!isset($items[$item['xhome']])) {

@@ -23,7 +23,7 @@ function _HCM_recentposts($limit = null, $stranky = "", $typ = null)
         }
         $rroots = "(" . _sqlWhereColumn("home", $stranky) . ") AND type=" . $rtype;
     } else {
-        $rroots = "type!=4 AND type!=6";
+        $rroots = "type!=4 AND type!=6 AND type!=7";
     }
 
     $query = DB::query("SELECT id,type,home,xhome,subject,author,guest,time,text FROM `" . _mysql_prefix . "-posts` WHERE " . $rroots . " ORDER BY id DESC LIMIT " . $limit);

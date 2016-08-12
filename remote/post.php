@@ -177,6 +177,8 @@ if ($continue and $continue2 and $text != "" and ($posttype == 4 || _captchaChec
                     if (!_loginright_unlimitedpostaccess and $posttype != 4) _iplogUpdate(5);
                     $return = 1;
 
+                    _extend('call', 'posts.new', array('id' => $insert_id, 'posttype' => $posttype));
+
                     // topicy - aktualizace bumptime
                     if ($posttype == 5 && $xhome != -1) {
                         DB::query("UPDATE `" . _mysql_prefix . "-posts` SET bumptime=UNIX_TIMESTAMP() WHERE id=" . $xhome);

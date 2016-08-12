@@ -250,12 +250,30 @@ function _formMessage($type, $string)
 /**
  * Sestaveni formulare
  *
+ * Format $cells:
+ *
+ *  array(
+ *      array(
+ *          0 => popisek
+ *          1 => obsah radku
+ *          2 => [vertikalni zarovnani 1/0]
+ *          3 => [obsah po tabulce]
+ *          4 => class atribut pro <tr>
+ *      ),
+ *      ...
+ *  )
+ *
  * - radek je preskocen, pokud je popisek radku prazdny
  * - popisek radku bude zobrazen i pres bunku pro obsah radku, pokud je obsah radku prazdny
  *
+ * Dalsi klice v $cells:
+ *
+ *  attrs     dalsi atributy pro <form> tag (HTML bez mezer)
+ *  method    metoda, vychozi je post
+ *
  * @param string $name nazev formulare
  * @param string $action cil formulare
- * @param array $cells radky formulare ve formatu array(array(0 => popisek, 1 => obsah radku, 2 => [vertikalni zarovnani 1/0], 3 => [obsah po tabulce]), ...)
+ * @param array $cells radky formulare ve formatu viz vyse
  * @param array|null $check pole s nazvy poli pro kontrolu javascriptem nebo null
  * @param string|null $submittext text tlacitka pro odeslani formulare nebo null (= vychozi)
  * @param string|null $codenexttosubmit kod vedle odesilaciho tlacitka nebo null
@@ -263,6 +281,19 @@ function _formMessage($type, $string)
  */
 function _formOutput($name, $action, $cells, $check = null, $submittext = null, $codenexttosubmit = null)
 {
+    $extend_buffer = _extend('buffer', 'sys.form.output', array(
+        'name' => &$name,
+        'action' => &$action,
+        'cells' => &$cells,
+        'check' => &$check,
+        'submittext' => &$submittext,
+        'codenexttosubmit' => &$codenexttosubmit,
+    ));
+
+    if ('' !== $extend_buffer) {
+        return $extend_buffer;
+    }
+
     global $_lang;
 
     /* ---  kontrola poli javascriptem, text odesilaciho tlacidla  --- */
@@ -272,23 +303,51 @@ function _formOutput($name, $action, $cells, $check = null, $submittext = null, 
         $checkcode = "";
     }
 
+    // submit text
     if ($submittext != null) {
         $submit = $submittext;
     } else {
         $submit = $_lang['global.send'];
     }
 
+    // metoda
+    if (isset($cells['method'])) {
+        $method = $cells['method'];
+        unset($cells['method']);
+    } else {
+        $method = 'post';
+    }
+
+    // atributy
+    if (isset($cells['attrs'])) {
+        $attrs = ' ' . $cells['attrs'];
+        unset($cells['attrs']);
+    } else {
+        $attrs = '';
+    }
+
     /* ---  vystup  --- */
     $hidden_content = '';
     $output = "
-<form action='" . $action . "' method='post' name='" . $name . "'" . $checkcode . ">
+<form action='" . $action . "' method='" . $method . "' name='" . $name . "'" . $attrs . $checkcode . ">
 <table>";
 
     // bunky
     foreach ($cells as $cell) {
         if ($cell[0] != "") {
+            $class = '';
+            if (isset($cell[2]) && $cell[2]) {
+                $class .= 'valign-top';
+            }
+            if (isset($cell[4])) {
+                if ('' !== $class) {
+                    $class .= ' ';
+                }
+                $class .= $cell[4];
+            }
+
             $output .= "
-    <tr" . ((isset($cell[2]) and $cell[2]) ? " class='valign-top'" : '') . ">
+    <tr" . (('' === $class) ? '' : ' class="' . $class . '"') . ">
     <td class='rpad'" . (($cell[1] == "") ? " colspan='2'" : '') . ">" . (($cell[1] != "") ? "<strong>" : '') . $cell[0] . (($cell[1] != "") ? "</strong>" : '') . "</td>
     " . (($cell[1] != "") ? "<td>" . $cell[1] . "</td>" : '') . "
     </tr>";
@@ -1597,139 +1656,167 @@ function _sqlWhereColumn($column, $values)
  * @param string $id identifikator formulare
  * @param array $vars promenne dle typu
  * @param bool $notitle nevkladat titulek do formulare 1/0
- * @return string
+ * @param bool $extend volat extend udalosti 1/0
+ * @return array array(content, title)
  */
-function _uniForm($id, $vars = array(), $notitle = false)
+function _uniForm($id, $vars = array(), $notitle = false, $extend = true)
 {
     // priprava
     global $_lang;
     $content = "";
     $title = "";
 
+    // extend
+    if ($extend) {
+        _extend('call', 'sys.form', array(
+            'id' => $id,
+            'vars' => $vars,
+            'notitle' => &$notitle,
+            'content' => &$content,
+        ));
+    }
+
     // typ
-    switch ($id) {
+    if ('' === $content) {
+        switch ($id) {
 
-            /* ---  prihlaseni  --- */
-        case "login":
+                /* ---  prihlaseni  --- */
+            case "login":
 
-            // titulek
-            $title = $_lang['login.title'];
+                // titulek
+                $title = $_lang['login.title'];
 
-            // zpravy
-            if (isset($_GET['_mlr'])) {
-                switch ($_GET['_mlr']) {
-                    case 0:
-                        $content .= _formMessage(2, $_lang['login.failure']);
-                        break;
-                    case 1:
-                        if (_loginindicator and !_administration) {
-                            $content .= _formMessage(1, $_lang['login.success']);
-                        }
-                        break;
-                    case 2:
-                        if (!_loginindicator) {
-                            $content .= _formMessage(2, $_lang['login.blocked.message']);
-                        }
-                        break;
-                    case 3:
-                        if (!_loginindicator) {
-                            $content .= _formMessage(3, $_lang['login.securitylogout']);
-                        }
-                        break;
-                    case 4:
-                        if (!_loginindicator) {
-                            $content .= _formMessage(1, $_lang['login.selfremove']);
-                        }
-                        break;
-                    case 5:
-                        if (!_loginindicator) {
-                            $content .= _formMessage(2, str_replace(array("*1*", "*2*"), array(_maxloginattempts, _maxloginexpire / 60), $_lang['login.attemptlimit']));
-                        }
-                        break;
-                    case 6:
-                        $content .= _formMessage(3, $_lang['xsrf.msg']);
-                        break;
+                // zpravy
+                if (isset($_GET['_mlr'])) {
+                    switch ($_GET['_mlr']) {
+                        case 0:
+                            $content .= _formMessage(2, $_lang['login.failure']);
+                            break;
+                        case 1:
+                            if (_loginindicator and !_administration) {
+                                $content .= _formMessage(1, $_lang['login.success']);
+                            }
+                            break;
+                        case 2:
+                            if (!_loginindicator) {
+                                $content .= _formMessage(2, $_lang['login.blocked.message']);
+                            }
+                            break;
+                        case 3:
+                            if (!_loginindicator) {
+                                $content .= _formMessage(3, $_lang['login.securitylogout']);
+                            }
+                            break;
+                        case 4:
+                            if (!_loginindicator) {
+                                $content .= _formMessage(1, $_lang['login.selfremove']);
+                            }
+                            break;
+                        case 5:
+                            if (!_loginindicator) {
+                                $content .= _formMessage(2, str_replace(array("*1*", "*2*"), array(_maxloginattempts, _maxloginexpire / 60), $_lang['login.attemptlimit']));
+                            }
+                            break;
+                        case 6:
+                            $content .= _formMessage(3, $_lang['xsrf.msg']);
+                            break;
+                    }
                 }
-            }
 
-            // obsah
-            if (!_loginindicator) {
+                // obsah
+                if (!_loginindicator) {
 
-                // adresa pro navrat
-                if (isset($_GET['login_form_return'])) $return = $_GET['login_form_return'];
-                else $return = $_SERVER['REQUEST_URI'];
+                    // adresa pro navrat
+                    if (isset($_GET['login_form_return'])) $return = $_GET['login_form_return'];
+                    else $return = $_SERVER['REQUEST_URI'];
 
-                // adresa formulare
-                $form_url = parse_url($_SERVER['REQUEST_URI']);
-                if (isset($form_url['query'])) {
-                    parse_str($form_url['query'], $form_url['query']);
-                    unset($form_url['query']['_formData'], $form_url['query']['_mlr']);
-                    $form_url = _buildURL($form_url);
+                    // adresa formulare
+                    $form_url = parse_url($_SERVER['REQUEST_URI']);
+                    if (isset($form_url['query'])) {
+                        parse_str($form_url['query'], $form_url['query']);
+                        unset($form_url['query']['_formData'], $form_url['query']['_mlr']);
+                        $form_url = _buildURL($form_url);
+                    } else {
+                        $form_url = $_SERVER['REQUEST_URI'];
+                    }
+
+                    // kod formulare
+                    $callArgs = array(
+                        "login_form",
+                        _indexroot . "remote/login.php?_return=" . urlencode($return),
+                        array(
+                            array($_lang['login.username'], "<input type='text' name='username' class='inputmedium'" . _restoreGetFdValue("username") . " maxlength='24' />"),
+                            array($_lang['login.password'], "<input type='password' name='password' class='inputmedium' />")
+                        ),
+                        null,
+                        $_lang['global.login'],
+                        "&nbsp;&nbsp;<label><input type='checkbox' name='persistent' value='1' /> " . $_lang['login.persistent'] . "</label><input type='hidden' name='form_url' value='" . _htmlStr($form_url) . "' />
+                        &nbsp;&nbsp;<label><input type='checkbox' name='ipbound' value='1' checked='checked' /> " . (isset($_lang['login.ipbound']) ? $_lang['login.ipbound'] : 'zabezpečené') . "</label>"
+                    );
+
+                    if ($extend) {
+                        _extend('call', 'sys.form.login', array('call' => &$callArgs));
+                    }
+
+                    $content .= call_user_func_array('_formOutput', $callArgs);
+
+                    // odkazy
+                    if (_registration or _lostpass) {
+                        $content .= "\n\n<p>\n" . ((_registration and !_administration) ? "<a href='" . _indexroot . "index.php?m=reg'>" . $_lang['mod.reg'] . " &gt;</a>\n" : '') . (_lostpass ? ((_registration and !_administration) ? "<br />" : '') . "<a href='" . _indexroot . "index.php?m=lostpass'>" . $_lang['mod.lostpass'] . " &gt;</a>\n" : '') . "</p>";
+                    }
+
                 } else {
-                    $form_url = $_SERVER['REQUEST_URI'];
+                    $content .= "<p>" . $_lang['login.ininfo'] . " <em>" . _loginname . "</em> - <a href='" . _xsrfLink(_indexroot . "remote/logout.php") . "'>" . $_lang['usermenu.logout'] . "</a>.</p>";
                 }
 
-                // kod formulare
-                $content .= _formOutput(
-                    "login_form",
-                    _indexroot . "remote/login.php?_return=" . urlencode($return),
-                    array(
-                        array($_lang['login.username'], "<input type='text' name='username' class='inputmedium'" . _restoreGetFdValue("username") . " maxlength='24' />"),
-                        array($_lang['login.password'], "<input type='password' name='password' class='inputmedium' />")
-                    ),
+                break;
+
+                /* ---  zprava o neverejnosti obsahu (0-notpublicsite)  --- */
+            case "notpublic":
+                $form = _uniForm("login", array(), true);
+                if (!isset($vars[0])) {
+                    $vars[0] = false;
+                }
+                $content = "<p>" . $_lang['notpublic.p' . (($vars[0] == true) ? '2' : '')] . "</p>" . $form[0];
+                $title = $_lang['notpublic.title'];
+                break;
+
+                /* ---  formular pro zaslani prispevku / komentare (posttype,posttarget,xhome,url)  --- */
+            case "postform":
+                $title = "";
+                $notitle = true;
+
+                // pole
+                $inputs = array();
+                $captcha = _captchaInit();
+                $content = _jsLimitLength(16384, "postform", "text");
+                if (_loginindicator == 0) $inputs[] = array($_lang['posts.guestname'], "<input type='text' name='guest' maxlength='24' class='inputsmall'" . _restoreGetFdValue("guest") . " />");
+                if ($vars['xhome'] == -1) $inputs[] = array($_lang[(($vars['posttype'] != 5) ? 'posts.subject' : 'posts.topic')], "<input type='text' name='subject' class='input" . (($vars['posttype'] != 5) ? 'small' : 'medium') . "' maxlength='" . (($vars['posttype'] != 5) ? 22 : 48) . "'" . _restoreGetFdValue("subject") . " />");
+                $inputs[] = $captcha;
+                $inputs[] = array($_lang['posts.text'], "<textarea name='text' class='areamedium' rows='5' cols='33'>" . _restoreGetFdValue("text", null, true) . "</textarea><input type='hidden' name='_posttype' value='" . $vars['posttype'] . "' /><input type='hidden' name='_posttarget' value='" . $vars['posttarget'] . "' /><input type='hidden' name='_xhome' value='" . $vars['xhome'] . "' />" . (isset($vars['pluginflag']) ? "<input type='hidden' name='_pluginflag' value='" . $vars['pluginflag'] . "' />" : ''), true);
+
+                // formular
+                $callArgs = array(
+                    'postform',
+                    _addGetToLink(_indexroot . "remote/post.php", "_return=" . urlencode($vars['url']), false),
+                    $inputs,
+                    array("text"),
                     null,
-                    $_lang['global.login'],
-                    "&nbsp;&nbsp;<label><input type='checkbox' name='persistent' value='1' /> " . $_lang['login.persistent'] . "</label><input type='hidden' name='form_url' value='" . _htmlStr($form_url) . "' />
-                    &nbsp;&nbsp;<label><input type='checkbox' name='ipbound' value='1' checked='checked' /> " . (isset($_lang['login.ipbound']) ? $_lang['login.ipbound'] : 'zabezpečené') . "</label>"
+                    _getPostformControls("postform", "text")
                 );
 
-                // odkazy
-                if (_registration or _lostpass) {
-                    $content .= "\n\n<p>\n" . ((_registration and !_administration) ? "<a href='" . _indexroot . "index.php?m=reg'>" . $_lang['mod.reg'] . " &gt;</a>\n" : '') . (_lostpass ? ((_registration and !_administration) ? "<br />" : '') . "<a href='" . _indexroot . "index.php?m=lostpass'>" . $_lang['mod.lostpass'] . " &gt;</a>\n" : '') . "</p>";
+                if ($extend) {
+                    _extend('call', 'sys.form.postform', array(
+                        'call' => &$callArgs,
+                        'vars' => $vars,
+                    ));
                 }
 
-            } else {
-                $content .= "<p>" . $_lang['login.ininfo'] . " <em>" . _loginname . "</em> - <a href='" . _xsrfLink(_indexroot . "remote/logout.php") . "'>" . $_lang['usermenu.logout'] . "</a>.</p>";
-            }
+                $content .= call_user_func_array('_formOutput', $callArgs);
 
-            break;
+                break;
 
-            /* ---  zprava o neverejnosti obsahu (0-notpublicsite)  --- */
-        case "notpublic":
-            $form = _uniForm("login", array(), true);
-            if (!isset($vars[0])) {
-                $vars[0] = false;
-            }
-            $content = "<p>" . $_lang['notpublic.p' . (($vars[0] == true) ? '2' : '')] . "</p>" . $form[0];
-            $title = $_lang['notpublic.title'];
-            break;
-
-            /* ---  formular pro zaslani prispevku / komentare (posttype,posttarget,xhome,url)  --- */
-        case "postform":
-            $title = "";
-            $notitle = true;
-
-            // pole
-            $inputs = array();
-            $captcha = _captchaInit();
-            $content = _jsLimitLength(16384, "postform", "text");
-            if (_loginindicator == 0) $inputs[] = array($_lang['posts.guestname'], "<input type='text' name='guest' maxlength='24' class='inputsmall'" . _restoreGetFdValue("guest") . " />");
-            if ($vars['xhome'] == -1) $inputs[] = array($_lang[(($vars['posttype'] != 5) ? 'posts.subject' : 'posts.topic')], "<input type='text' name='subject' class='input" . (($vars['posttype'] != 5) ? 'small' : 'medium') . "' maxlength='" . (($vars['posttype'] != 5) ? 22 : 48) . "'" . _restoreGetFdValue("subject") . " />");
-            $inputs[] = $captcha;
-            $inputs[] = array($_lang['posts.text'], "<textarea name='text' class='areamedium' rows='5' cols='33'>" . _restoreGetFdValue("text", null, true) . "</textarea><input type='hidden' name='_posttype' value='" . $vars['posttype'] . "' /><input type='hidden' name='_posttarget' value='" . $vars['posttarget'] . "' /><input type='hidden' name='_xhome' value='" . $vars['xhome'] . "' />" . (isset($vars['pluginflag']) ? "<input type='hidden' name='_pluginflag' value='" . $vars['pluginflag'] . "' />" : ''), true);
-
-            // formular
-            $content .= _formOutput(
-                'postform',
-                _addGetToLink(_indexroot . "remote/post.php", "_return=" . urlencode($vars['url']), false),
-                $inputs,
-                array("text"),
-                null,
-                _getPostformControls("postform", "text")
-            );
-
-            break;
-
+        }
     }
 
     // return
@@ -1739,6 +1826,7 @@ function _uniForm($id, $vars = array(), $notitle = false)
 
     return array($content, $title);
 }
+
 
 /**
  * Odhlaseni aktualniho uzivatele

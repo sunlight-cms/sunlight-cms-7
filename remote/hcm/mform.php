@@ -97,5 +97,5 @@ if (_xsrfCheck()) {
 } else $return = 4;
 
 // presmerovani zpet
-$_GET['_return'] = _addGetToLink($_GET['_return'], "hcm_mr_" . $fid . "=" . $return . "#hcm_mform_" . $fid);
+$_GET['_return'] = _addGetToLink($_GET['_return'], "hcm_mr_" . $fid . "=" . $return . "#hcm_mform_" . $fid, false);
 _returnHeader();

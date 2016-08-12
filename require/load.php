@@ -220,11 +220,16 @@ abstract class SL
             @setlocale(LC_TIME, $locale);
             if (function_exists('date_default_timezone_set')) date_default_timezone_set($timezone);
 
-            // header a kodovani
+            // interni kodovani
             mb_internal_encoding('UTF-8');
-            if (!defined('_header')) $header = 'Content-Type: text/html; charset=UTF-8';
-            else $header = _header;
-            if ($header !== '') header($header);
+           
+            // vychozi hlavicky
+            if (!defined('_header')) {
+                header('Content-Type: text/html; charset=UTF-8');
+                header('Expires: ' . gmdate('D, d M Y H:i:s', time() - 604800) . ' GMT');
+            } elseif (_header) {
+                header(_header);
+            }
 
         }
 
