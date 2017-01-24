@@ -117,7 +117,7 @@ abstract class SL
         define('_nl', "\n");
         define('_sessionprefix', md5($server . $database . $user . $prefix) . '-');
         if (!defined('_administration')) define('_administration', 0);
-        define('_dev', isset($dev) ? $dev : true); // vyvojovy mod 1/0
+        define('_dev', isset($dev) ? $dev : false); // vyvojovy mod 1/0
         define('_systemstate', 2); // 0 = beta, 1 = rc, 2 = stable
         define('_systemstate_revision', 0); // revize systemu
         define('_systemversion', '7.5.5'); // verze systemu
