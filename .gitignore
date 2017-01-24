@@ -17,6 +17,11 @@
 /pictures/thumb/*
 !/pictures/thumb/.gitkeep
 
+/admin/modules/ajaxfm
+/admin/modules/tinymce
+/admin/modules/ckeditor
+/admin/modules/wysiwyg.php
+
 /.htaccess
 /config.php
 /mail.log
