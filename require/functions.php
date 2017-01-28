@@ -88,7 +88,7 @@ function _captchaInit()
         }
         $_SESSION[_sessionprefix . 'captcha_code'][SL::$captchaCounter] = array(_captchaCode(8), false);
 
-        return array($_lang['captcha.input'], "<input type='text' name='_cp' class='inputc' /><img src='" . _indexroot . "remote/cimage.php?n=" . SL::$captchaCounter . "' alt='captcha' title='" . $_lang['captcha.help'] . "' class='cimage' /><input type='hidden' name='_cn' value='" . SL::$captchaCounter . "' />", true);
+        return array($_lang['captcha.input'], "<input type='text' name='_cp' class='inputc' /><img src='" . _indexroot . "remote/cimage.php?n=" . SL::$captchaCounter . "' alt='" . $_lang['captcha.help'] . "' title='" . $_lang['captcha.help'] . "' class='cimage' /><input type='hidden' name='_cn' value='" . SL::$captchaCounter . "' />", true);
     } else {
         return array("", "");
     }
