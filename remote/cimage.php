@@ -74,8 +74,8 @@ function imagelightnessat($img, $x, $y)
 $perspective = new linear_perspective;
 
 // sizes and offsets
-$matrix_dim = array('x' => 85, 'y' => 30);
-$captcha_dim = array('x' => 410, 'y' => 120);
+$matrix_dim = array('x' => 114, 'y' => 30);
+$captcha_dim = array('x' => 546, 'y' => 120);
 $distance = array('x' => 1, 'y' => 1, 'z' => 1);
 $metric = array('x' => 10, 'y' => 25, 'z' => 5);
 $offset = array('x' => 198, 'y' => -60);
@@ -85,10 +85,16 @@ $matrix = imagecreatetruecolor($matrix_dim['x'], $matrix_dim['y']);
 $black = imagecolorexact($matrix, 0, 0, 0);
 $white = imagecolorexact($matrix, 255, 255, 255);
 $gray = imagecolorexact($matrix, 200, 200, 200);
+$gray_dark = imagecolorexact($matrix, 150, 150, 150);
 imagefill($matrix, 0, 0, $white);
 
 // random pixels
 for($i = 0; $i < 300; ++$i) imagesetpixel($matrix, mt_rand(5, ($matrix_dim['x'] - 6)), mt_rand(5, ($matrix_dim['y'] - 6)), $gray);
+
+// random texts
+for ($i = 0; $i < 5; ++$i) {
+    imagefttext($matrix, mt_rand(10, 25), mt_rand(45, 135), $matrix_dim['x'] / 5 * $i + mt_rand(-5, 5), 25, $gray_dark, dirname(__file__) . '/cimage.ttf', _wordGenCaptcha(3));
+}
 
 // text
 imagefttext($matrix, 19, 0, 4, 25, $black, dirname(__file__) . '/cimage.ttf', $code);
@@ -123,10 +129,7 @@ for($x = 1; $x < $matrix_dim['x']; $x++)
     for($y = 1; $y < $matrix_dim['y']; $y++) imageline($captcha, -$point[$x - 1][$y - 1]['x'] + $offset['x'], -$point[$x - 1][$y - 1]['y'] + $offset['y'], -$point[$x][$y]['x'] + $offset['x'], -$point[$x][$y]['y'] + $offset['y'], $black);
 
 // output
-// imagepng($captcha); die;
-// imagefilledrectangle($captcha, 0, 0, 90, 25, $white);
-// imagefttext($captcha, 20, 0, 8, 20, $black, k::classPath('iCaptcha').k::DATA_DIRNAME.'/font.ttf', $code);
-$width = 160;
+$width = 250;
 $height = floor($width / ($captcha_dim['x'] / $captcha_dim['y']));
 $rcaptcha = imagecreatetruecolor($width, $height);
 imagecopyresampled($rcaptcha, $captcha, 0, 0, 0, 0, $width, $height, $captcha_dim['x'], $captcha_dim['y']);

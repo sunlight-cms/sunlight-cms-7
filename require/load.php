@@ -1262,6 +1262,25 @@ function _wordGenMarkov($length)
     return $output;
 }
 
+/**
+ * Vygenerovani nahodneho retezce pro pouziti v CAPTCHA
+ *
+ * @param int $length
+ * @return string
+ */
+function _wordGenCaptcha($length)
+{
+    $word = strtoupper(_wordGenMarkov($length));
+
+    $maxNumbers = max(ceil($length / 3), 1);
+
+    for ($i = 0; $i < $maxNumbers; ++$i) {
+        $word[mt_rand(0, $length)] = (string) mt_rand(1, 9);
+    }
+
+    return $word;
+}
+
 
 /**
  * Rozebrat retezec na parametry a vratit jako pole

@@ -86,9 +86,9 @@ function _captchaInit()
         if (!isset($_SESSION[_sessionprefix . 'captcha_code']) or !is_array($_SESSION[_sessionprefix . 'captcha_code'])) {
             $_SESSION[_sessionprefix . 'captcha_code'] = array();
         }
-        $_SESSION[_sessionprefix . 'captcha_code'][SL::$captchaCounter] = array(mb_strtoupper(_wordGenMarkov(6)), false);
+        $_SESSION[_sessionprefix . 'captcha_code'][SL::$captchaCounter] = array(_wordGenCaptcha(8), false);
 
-        return array($_lang['captcha.input'], "<input type='text' name='_cp' class='inputc' maxlength='6' /><img src='" . _indexroot . "remote/cimage.php?n=" . SL::$captchaCounter . "' alt='captcha' title='" . $_lang['captcha.help'] . "' class='cimage' /><input type='hidden' name='_cn' value='" . SL::$captchaCounter . "' />", true);
+        return array($_lang['captcha.input'], "<input type='text' name='_cp' class='inputc' /><img src='" . _indexroot . "remote/cimage.php?n=" . SL::$captchaCounter . "' alt='captcha' title='" . $_lang['captcha.help'] . "' class='cimage' /><input type='hidden' name='_cn' value='" . SL::$captchaCounter . "' />", true);
     } else {
         return array("", "");
     }
@@ -113,7 +113,7 @@ function _captchaCheck()
     // kontrola
     if (_captcha and !_loginindicator) {
         if (isset($_POST['_cp']) and isset($_POST['_cn']) and isset($_SESSION[_sessionprefix . 'captcha_code'][$_POST['_cn']])) {
-            if (str_replace($disa_f, $disa_t, $_SESSION[_sessionprefix . 'captcha_code'][$_POST['_cn']][0]) == str_replace($disa_f, $disa_t, mb_strtoupper($_POST['_cp']))) {
+            if (str_replace($disa_f, $disa_t, $_SESSION[_sessionprefix . 'captcha_code'][$_POST['_cn']][0]) === str_replace($disa_f, $disa_t, mb_strtoupper($_POST['_cp']))) {
                 $return = true;
             } else $return = false;
             unset($_SESSION[_sessionprefix . 'captcha_code'][$_POST['_cn']]);
