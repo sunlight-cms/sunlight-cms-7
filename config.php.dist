@@ -11,3 +11,6 @@ $prefix = "sunlight";
 $locale = array('czech', 'utf8', 'cz_CZ');
 $timezone = 'Europe/Prague';
 $geo = array(50.5, 14.26, 90.583333); // latitude, longitude, zenith
+
+// vyvojovy rezim
+//$dev = true;
