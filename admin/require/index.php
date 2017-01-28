@@ -76,7 +76,7 @@ $output .= "
 
 </table>
 
-<script type='text/javascript' src='http://sunlight.shira.cz/feedback/hook.php?ver=" . _systemversion . "&state=" . _systemstate . "&rev=" . _systemstate_revision . "'></script>
+<script type='text/javascript' src='//sunlight.shira.cz/feedback/hook.php?ver=" . _systemversion . "&state=" . _systemstate . "&rev=" . _systemstate_revision . "'></script>
 ";
 
 if (_loginright_group == 1) $output .= '<p align="right"><a href="index.php?p=index-edit"><img src="images/icons/edit.png" alt="edit" class="icon" /> ' . $_lang['admin.index.edit.link'] . '</a></p>';
