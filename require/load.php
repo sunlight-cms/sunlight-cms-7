@@ -1727,7 +1727,7 @@ function _phpIniLimit($opt)
 
     // extract type, process number
     $last = substr($ini, -1);
-    $ini += 0;
+    $ini = (int) $ini;
 
     // parse ini value
     switch ($last) {
