@@ -285,7 +285,7 @@ abstract class SL
             define('_userip', trim((($addr_comma = strrpos($ip, ',')) === false) ? $ip : substr($ip, $addr_comma + 1)));
 
             // poinstalacni kontrola
-            if (_install_check) {
+            if (_install_check && !defined('_skip_install_check')) {
                 require _indexroot . 'require/installcheck.php';
             }
 
