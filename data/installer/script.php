@@ -384,7 +384,7 @@ function _tmp_installer_install()
                         } catch (_InstallException $e) {
                             $err = $e->getMessage();
                         } catch (Exception $e) {
-                            $err = _htmlStr($e->getMessage());
+                            $err = _htmlStr((string) $e);
                         }
 
                         // uspech ci chyba
