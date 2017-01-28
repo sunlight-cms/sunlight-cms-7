@@ -44,7 +44,7 @@ if (isset($_POST['license'])) {
         require 'data.php';
 
         // zprava
-        if ($sql_error == false) $msg = "<font style='color:green;'>Zdá se, že databáze byla úspěšně nainstalována. Smažte adresář <em>install</em> ze serveru.</font>";
+        if ($sql_error == false) $msg = "<span style='color:green;'>Zdá se, že databáze byla úspěšně nainstalována. Smažte adresář <em>install</em> ze serveru.</span>";
         else $msg = "Během vyhodnocování SQL dotazů nastala chyba:<hr />" . _htmlStr($sql_error) . '<hr />SQL dotaz:<br />' . _htmlStr($line);
 
     } else {
@@ -143,7 +143,7 @@ echo _systemversion;
   <hr />
 
   <h2>Licenční ujednání</h2>
-  <p>Copyright (c) 2006-2016 Pavel Batečko (ShiraNai7)</p>
+  <p>Copyright (c) 2006-2017 Pavel Batečko (ShiraNai7)</p>
 
   <p>Permission is hereby granted, free of charge, to any person
   obtaining a copy of this software and associated documentation

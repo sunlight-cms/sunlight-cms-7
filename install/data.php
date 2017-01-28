@@ -264,7 +264,7 @@ $sql[] = "CREATE TABLE `" . _mysql_prefix . "-root` (
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2";
 
 $sql[] = "INSERT INTO `" . _mysql_prefix . "-root` (`id`, `title`, `title_seo`, `keywords`, `description`, `type`, `type_idt`, `intersection`, `intersectionperex`, `ord`, `content`, `visible`, `public`, `level`, `autotitle`, `events`, `var1`, `var2`, `var3`, `var4`) VALUES
-(1, 'Úvod', 'index', '', '', 1, NULL, -1, '', 1, '<p>Instalace redakčního systému SunLight CMS 7.5.4 byla úspěšně dokončena!<br />Nyní se již můžete <a href=\"admin/\">přihlásit do administrace</a> (jméno a heslo bylo zvoleno při instalaci).</p>\r\n\r\n<p>Podporu, diskusi a doplňky ke stažení naleznete na oficiálních webových stránkách <a href=\"http://sunlight.shira.cz/\">sunlight.shira.cz</a>.</p>', 1, 1, 0, 1, NULL, 0, 0, 0, 0)";
+(1, 'Úvod', 'index', '', '', 1, NULL, -1, '', 1, '<p>Instalace redakčního systému SunLight CMS 7.5.4 byla úspěšně dokončena!<br />Nyní se již můžete <a href=\"admin/index.php?_formData[username]=admin\">přihlásit do administrace</a> (heslo bylo zvoleno při instalaci).</p>\r\n\r\n<p>Podporu, diskusi a doplňky ke stažení naleznete na oficiálních webových stránkách <a href=\"http://sunlight.shira.cz/\">sunlight.shira.cz</a>.</p>', 1, 1, 0, 1, NULL, 0, 0, 0, 0)";
 
 $sql[] = "CREATE TABLE `" . _mysql_prefix . "-sboxes` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -351,7 +351,7 @@ $sql[] = "INSERT INTO `" . _mysql_prefix . "-settings` (`var`, `val`) VALUES
 ('article_pic_w', '200'),
 ('article_pic_h', '200'),
 ('topic_hot_ratio', '20'),
-('install_check', '0'),
+('install_check', '1'),
 ('ajaxfm', '0'),
 ('proxy_mode', '0'),
 ('cron_auto',  '1'),
