@@ -23,12 +23,7 @@ $check_dirs = array(
     'admin/modules/',
     'data/tmp/',
     'data/backup/',
-    );
-
-// kontrola verze php
-if (!function_exists('version_compare') || version_compare('4.3.3', PHP_VERSION) === 1) {
-    $errors[] = 'Používáte příliš starou verzi PHP (' . PHP_VERSION . ') - je vyžadována alespoň verze 4.3.3';
-}
+);
 
 // kontrola cest
 for ($i = 0; isset($check_dirs[$i]); ++$i) {
