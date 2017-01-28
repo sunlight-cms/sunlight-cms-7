@@ -19,12 +19,12 @@ if (isset($_GET['n']) and isset($_SESSION[_sessionprefix . 'captcha_code'][(int)
     die;
 }
 
-/**
- * Linear perspective class
- */
+_extend('call', 'captcha.render');
+
+$invert = mt_rand(0, 1) ? -1 : 1;
+
 class linear_perspective
 {
-
     public $cam_location = array('x' => -30, 'y' => 0, 'z' => -250);
     public $cam_rotation = array('x' => -1, 'y' => 0, 'z' => 0);
     public $viewer_position = array('x' => 450, 'y' => -500, 'z' => -80);
@@ -43,7 +43,6 @@ class linear_perspective
 
         return $projection;
     }
-
 }
 
 function imagelightnessat($img, $x, $y)
@@ -77,8 +76,10 @@ $perspective = new linear_perspective;
 $matrix_dim = array('x' => 114, 'y' => 30);
 $captcha_dim = array('x' => 546, 'y' => 120);
 $distance = array('x' => 1, 'y' => 1, 'z' => 1);
-$metric = array('x' => 10, 'y' => 25, 'z' => 5);
-$offset = array('x' => 198, 'y' => -60);
+$metric = array('x' => 10, 'y' => 30, 'z' => 5);
+$offset = array('x' => 198, 'y' => $invert === -1 ? -40 : -60);
+
+_extend('call', 'captcha.render.matrix');
 
 // matrix
 $matrix = imagecreatetruecolor($matrix_dim['x'], $matrix_dim['y']);
@@ -93,21 +94,21 @@ for($i = 0; $i < 300; ++$i) imagesetpixel($matrix, mt_rand(5, ($matrix_dim['x'] 
 
 // random texts
 for ($i = 0; $i < 5; ++$i) {
-    imagefttext($matrix, mt_rand(10, 25), mt_rand(45, 135), $matrix_dim['x'] / 5 * $i + mt_rand(-5, 5), 25, $gray_dark, dirname(__file__) . '/cimage.ttf', _wordGenCaptcha(3));
+    imagefttext($matrix, mt_rand(10, 25), mt_rand(45, 135), $matrix_dim['x'] / 5 * $i + mt_rand(-5, 5), 25, $gray_dark, dirname(__file__) . '/cimage.ttf', _captchaCode(3));
 }
 
 // text
 imagefttext($matrix, 19, 0, 4, 25, $black, dirname(__file__) . '/cimage.ttf', $code);
 
 // rotate
-if (function_exists('imagerotate')) $matrix = imagerotate($matrix, mt_rand(-1, 1), $white);
+if (function_exists('imagerotate')) $matrix = imagerotate($matrix, mt_rand(0, 1) ? 1 : -1, $white);
 
 // compute 3D points
 $point = array();
 for ($x = 0; $x < $matrix_dim['x']; $x++) {
     for ($y = 0; $y < $matrix_dim['y']; $y++) {
         $lightness = imagelightnessat($matrix, $x, $y);
-        $point[$x][$y] = $perspective->getProjection(array('x' => $x * $metric['x'] + $distance['x'], 'y' => $lightness * $metric['y'] + $distance['y'], 'z' => ($matrix_dim['y'] - $y) * $metric['z'] + $distance['z']));
+        $point[$x][$y] = $perspective->getProjection(array('x' => $x * $metric['x'] + $distance['x'], 'y' => $invert * $lightness * $metric['y'] + $distance['y'], 'z' => ($matrix_dim['y'] - $y) * $metric['z'] + $distance['z']));
     }
 }
 imagedestroy($matrix);
@@ -128,10 +129,21 @@ if (function_exists('imageantialias')) imageantialias($captcha, true);
 for($x = 1; $x < $matrix_dim['x']; $x++)
     for($y = 1; $y < $matrix_dim['y']; $y++) imageline($captcha, -$point[$x - 1][$y - 1]['x'] + $offset['x'], -$point[$x - 1][$y - 1]['y'] + $offset['y'], -$point[$x][$y]['x'] + $offset['x'], -$point[$x][$y]['y'] + $offset['y'], $black);
 
-// output
+// resize
 $width = 250;
 $height = floor($width / ($captcha_dim['x'] / $captcha_dim['y']));
 $rcaptcha = imagecreatetruecolor($width, $height);
 imagecopyresampled($rcaptcha, $captcha, 0, 0, 0, 0, $width, $height, $captcha_dim['x'], $captcha_dim['y']);
+
+// draw random noise
+$light_noise = imagecolorallocatealpha($rcaptcha, 255, 255, 255, 120);
+$dark_noise = imagecolorallocatealpha($rcaptcha, 0, 0, 0, 120);
+for ($x = 0; $x < $captcha_dim['x']; ++$x) {
+    for ($y = 0; $y < $captcha_dim['y']; ++$y) {
+        imageline($rcaptcha, $x, $y, $x, $y, mt_rand(0, 1) ? $light_noise : $dark_noise);
+    }
+}
+
+// output
 header('Content-Type: image/png');
 imagepng($rcaptcha);

@@ -134,7 +134,7 @@ input[type=text], input[type=password], input[type=submit], input[type=button], 
 .areamedium {width: 495px; height: 150px;}
 .inputsmall {width: 177px;}
 .inputmedium {width: 370px;}
-.inputc {width: 160px; height: 46px; font-family: monospace; font-size: 40px; text-transform: uppercase;}
+.inputc {width: 180px; height: 46px; font-family: monospace; font-size: 40px; text-transform: uppercase;}
 
 /* strankovani*/
 .paging {padding: 6px 0 3px 1px;}

@@ -86,7 +86,7 @@ function _captchaInit()
         if (!isset($_SESSION[_sessionprefix . 'captcha_code']) or !is_array($_SESSION[_sessionprefix . 'captcha_code'])) {
             $_SESSION[_sessionprefix . 'captcha_code'] = array();
         }
-        $_SESSION[_sessionprefix . 'captcha_code'][SL::$captchaCounter] = array(_wordGenCaptcha(8), false);
+        $_SESSION[_sessionprefix . 'captcha_code'][SL::$captchaCounter] = array(_captchaCode(8), false);
 
         return array($_lang['captcha.input'], "<input type='text' name='_cp' class='inputc' /><img src='" . _indexroot . "remote/cimage.php?n=" . SL::$captchaCounter . "' alt='captcha' title='" . $_lang['captcha.help'] . "' class='cimage' /><input type='hidden' name='_cn' value='" . SL::$captchaCounter . "' />", true);
     } else {
@@ -107,13 +107,17 @@ function _captchaCheck()
     }
 
     // pole pro nahradu matoucich znaku
-    $disa_f = array('0', 'Q');
-    $disa_t = array('O', 'O');
+    $disambiguation = array(
+        '0' => 'O',
+        'Q' => 'O',
+        '1' => 'I',
+        '6' => 'G',
+    );
 
     // kontrola
     if (_captcha and !_loginindicator) {
         if (isset($_POST['_cp']) and isset($_POST['_cn']) and isset($_SESSION[_sessionprefix . 'captcha_code'][$_POST['_cn']])) {
-            if (str_replace($disa_f, $disa_t, $_SESSION[_sessionprefix . 'captcha_code'][$_POST['_cn']][0]) === str_replace($disa_f, $disa_t, mb_strtoupper($_POST['_cp']))) {
+            if (strtr($_SESSION[_sessionprefix . 'captcha_code'][$_POST['_cn']][0], $disambiguation) === strtr(mb_strtoupper($_POST['_cp']), $disambiguation)) {
                 $return = true;
             } else $return = false;
             unset($_SESSION[_sessionprefix . 'captcha_code'][$_POST['_cn']]);
@@ -121,6 +125,28 @@ function _captchaCheck()
             return $return;
         } else return false;
     } else return true;
+}
+
+/**
+ * Vygenerovani nahodneho retezce pro pouziti v CAPTCHA
+ *
+ * @param int $length
+ * @return string
+ */
+function _captchaCode($length)
+{
+    $word = strtoupper(_wordGenMarkov($length));
+
+    $maxNumbers = max(ceil($length / 3), 1);
+
+    for ($i = 0; $i < $maxNumbers; ++$i) {
+        $word[mt_rand(0, $length - 1)] = (string) mt_rand(2, 9);
+    }
+
+    return strtr($word, array(
+        'W' => 'X',
+        'Q' => 'O',
+    ));
 }
 
 /**
