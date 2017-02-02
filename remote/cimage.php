@@ -25,9 +25,9 @@ $invert = mt_rand(0, 1) ? -1 : 1;
 
 class linear_perspective
 {
-    public $cam_location = array('x' => -30, 'y' => 0, 'z' => -250);
+    public $cam_location = array('x' => 0, 'y' => 0, 'z' => -250);
     public $cam_rotation = array('x' => -1, 'y' => 0, 'z' => 0);
-    public $viewer_position = array('x' => 450, 'y' => -500, 'z' => -80);
+    public $viewer_position = array('x' => 500, 'y' => -500, 'z' => -80);
 
     public function getProjection($point)
     {
@@ -77,7 +77,7 @@ $matrix_dim = array('x' => 114, 'y' => 30);
 $captcha_dim = array('x' => 546, 'y' => 120);
 $distance = array('x' => 1, 'y' => 1, 'z' => 1);
 $metric = array('x' => 10, 'y' => 30, 'z' => 5);
-$offset = array('x' => 198, 'y' => $invert === -1 ? -40 : -60);
+$offset = array('x' => 240, 'y' => $invert === -1 ? -40 : -60);
 
 _extend('call', 'captcha.render.matrix');
 
@@ -86,7 +86,7 @@ $matrix = imagecreatetruecolor($matrix_dim['x'], $matrix_dim['y']);
 $black = imagecolorexact($matrix, 0, 0, 0);
 $white = imagecolorexact($matrix, 255, 255, 255);
 $gray = imagecolorexact($matrix, 200, 200, 200);
-$gray_dark = imagecolorexact($matrix, 150, 150, 150);
+$gray_dark = imagecolorexact($matrix, 175, 175, 175);
 imagefill($matrix, 0, 0, $white);
 
 // random pixels
@@ -99,9 +99,6 @@ for ($i = 0; $i < 5; ++$i) {
 
 // text
 imagefttext($matrix, 19, 0, 4, 25, $black, dirname(__file__) . '/cimage.ttf', $code);
-
-// rotate
-if (function_exists('imagerotate')) $matrix = imagerotate($matrix, mt_rand(0, 1) ? 1 : -1, $white);
 
 // compute 3D points
 $point = array();
