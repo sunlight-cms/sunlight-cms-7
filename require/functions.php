@@ -101,31 +101,34 @@ function _captchaInit()
 function _captchaCheck()
 {
     // extend
-    $output = _extend('fetch', 'sys.captcha.check');
-    if (null !== $output) {
-        return $output;
+    $result = _extend('fetch', 'sys.captcha.check');
+
+    if (null === $result) {
+        // pole pro nahradu matoucich znaku
+        $disambiguation = array(
+            '0' => 'O',
+            'Q' => 'O',
+            'D' => 'O',
+            '1' => 'I',
+            '6' => 'G',
+        );
+
+        // kontrola
+        if (_captcha and !_loginindicator) {
+            if (isset($_POST['_cp']) and isset($_POST['_cn']) and isset($_SESSION[_sessionprefix . 'captcha_code'][$_POST['_cn']])) {
+                if (strtr($_SESSION[_sessionprefix . 'captcha_code'][$_POST['_cn']][0], $disambiguation) === strtr(mb_strtoupper($_POST['_cp']), $disambiguation)) {
+                    $result = true;
+                }
+                unset($_SESSION[_sessionprefix . 'captcha_code'][$_POST['_cn']]);
+            }
+        } else {
+            $result = true;
+        }
     }
 
-    // pole pro nahradu matoucich znaku
-    $disambiguation = array(
-        '0' => 'O',
-        'Q' => 'O',
-        'D' => 'O',
-        '1' => 'I',
-        '6' => 'G',
-    );
+    _extend('call', 'sys.captcha.check.post', array('output' => &$result));
 
-    // kontrola
-    if (_captcha and !_loginindicator) {
-        if (isset($_POST['_cp']) and isset($_POST['_cn']) and isset($_SESSION[_sessionprefix . 'captcha_code'][$_POST['_cn']])) {
-            if (strtr($_SESSION[_sessionprefix . 'captcha_code'][$_POST['_cn']][0], $disambiguation) === strtr(mb_strtoupper($_POST['_cp']), $disambiguation)) {
-                $return = true;
-            } else $return = false;
-            unset($_SESSION[_sessionprefix . 'captcha_code'][$_POST['_cn']]);
-
-            return $return;
-        } else return false;
-    } else return true;
+    return $result;
 }
 
 /**
