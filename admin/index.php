@@ -311,7 +311,7 @@ if ($redir) {
 }
 ?>
 
-<span id="sl-copyright-element">Copyright &copy; 2006-2016 <a href="http://sunlight.shira.cz/" target="_blank">SunLight CMS</a><span> by <a href="http://shira.cz/" target="_blank">ShiraNai7</a></span></span>
+<span id="sl-copyright-element">Copyright &copy; 2006-2017 <a href="http://sunlight.shira.cz/" target="_blank">SunLight CMS</a><span> by <a href="http://shira.cz/" target="_blank">ShiraNai7</a></span></span>
 
 </div>
 </div>
