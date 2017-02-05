@@ -19,7 +19,7 @@ if (isset($_GET['n']) and isset($_SESSION[_sessionprefix . 'captcha_code'][(int)
     die;
 }
 
-_extend('call', 'captcha.render');
+_extend('call', 'sys.captcha.render');
 
 $invert = mt_rand(0, 1) ? -1 : 1;
 
@@ -79,7 +79,7 @@ $distance = array('x' => 1, 'y' => 1, 'z' => 1);
 $metric = array('x' => 10, 'y' => 30, 'z' => 5);
 $offset = array('x' => 240, 'y' => $invert === -1 ? -40 : -60);
 
-_extend('call', 'captcha.render.matrix');
+_extend('call', 'sys.captcha.render.matrix');
 
 // matrix
 $matrix = imagecreatetruecolor($matrix_dim['x'], $matrix_dim['y']);
