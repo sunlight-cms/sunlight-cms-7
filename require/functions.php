@@ -110,6 +110,7 @@ function _captchaCheck()
     $disambiguation = array(
         '0' => 'O',
         'Q' => 'O',
+        'D' => 'O',
         '1' => 'I',
         '6' => 'G',
     );
