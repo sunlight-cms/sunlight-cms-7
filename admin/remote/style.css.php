@@ -185,8 +185,8 @@ td {font-size: 12px; padding: 1px;}
 #usermenu {float: right; position: relative; top: 6px;}
 #usermenu, #usermenu a {font-size: 14px; font-weight: bold; text-decoration: none; color: <?php echo $scheme_contrast; ?>;}
 #usermenu a.usermenu-web-link {margin-left: 0.5em;}
-#header-avatar {position: absolute; left: -42px; top: -8px; display: block; width: 32px; height: 32px; overflow: hidden; border: 1px solid <?php echo $scheme_dark; ?>; background-color: <?php echo $scheme_white; ?>;}
-#header-avatar img {max-width: 32px; opacity: 0.9;}
+#header-avatar {position: absolute; left: -34px; top: -8px; display: block; width: 24px; height: 32px; overflow: hidden; border: 1px solid <?php echo $scheme_dark; ?>; background-color: <?php echo $scheme_white; ?>;}
+#header-avatar img {height: 32px;}
 #header-avatar:hover img {opacity: 1;}
 
 /* menu */
