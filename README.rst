@@ -1,5 +1,5 @@
-SunLight CMS
-############
+SunLight CMS 7
+##############
 
 This is the official GIT repository of SunLight CMS (7.x branch).
 
@@ -7,10 +7,12 @@ This is the official GIT repository of SunLight CMS (7.x branch).
 Requirements
 ************
 
-- web server (apache preferred)
-- PHP 5.1.0 or newer (5.3.0 or newer with dev mode enabled)
-    - extensions: mbstring, mysqli
-- MySQL 5.0 or newer
+- web server (Apache preferred)
+- PHP 5.0.0 or newer
+
+  - extensions: mbstring, mysqli
+
+- MySQL 4.1 or newer
 
 
 Installation
